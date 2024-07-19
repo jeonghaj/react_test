@@ -3,7 +3,7 @@ import { Component } from 'react';
 import './App.css'
 
 //클래스형 component
-class App extends Component{
+class App2 extends Component{
   //상태값 (UI 에서 사용하는 데이터) 
   state={
     posts:[]
@@ -16,7 +16,7 @@ class App extends Component{
 
   //전체 글 목록을 받아오는 함수 
   getPosts = ()=>{
-    fetch("/v1/posts")
+    fetch("/v2/posts")
     .then(res=>res.json())
     .then(data=>{
       console.log(data)
@@ -31,17 +31,23 @@ class App extends Component{
     return (
       <div className="container">
         <h3>새글 작성 폼</h3>
-        <form action="/v1/posts" method="post" onSubmit={(e)=>{
+        <form action="/v2/posts" method="post" onSubmit={(e)=>{
           e.preventDefault();//폼 전송 막기 
           //요청 url 
           const url=e.target.action;
           //전송할 폼 데이터
           const formData=new FormData(e.target);
-          const queryString=new URLSearchParams(formData).toString();
+          //FormData 에 들어있는 내욜을 이용해서 json 문자열 만들어내기
+          const formObject={}
+          formData.forEach((value,key)=>{
+            formObject[key]=value;
+          });
+          const jsonString = JSON.stringify(formObject);
+
           fetch(url, {
             method:"post",
-            headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
-            body:queryString
+            headers:{"Content-Type":"application/json; charset=utf-8"},
+            body:jsonString
           })
           .then(res=>res.json())
           .then(data=>{
@@ -75,16 +81,18 @@ class App extends Component{
                 <td>{item.author}</td>
                 <td><button onClick={()=>{
                   const title=prompt(item.id+" 번글의 수정할 제목 입력...")
-                  //수정할 정보를 FormData 객체에 담는다.
-                  const formData = new FormData();
-                  formData.append("title", title);
-                  formData.append("author", item.author);
-                  const queryString=new URLSearchParams(formData).toString();
+                  //수정할 정보를 Object 객체에 담는다.
+                  const obj = {
+                    title:title,
+                    author:item.author
+                  }
+                  //object 를 이용해서 json 문자열을 얻어낸다.
+                  const jsonString = JSON.stringify(obj)
 
-                  fetch("/v1/posts/"+item.id, {
+                  fetch("/v2/posts/"+item.id, {
                     method:"put",
-                    headers:{"Content-Type":"application/x-www-form-urlencoded; charset=utf-8"},
-                    body:queryString
+                    headers:{"Content-Type":"application/json; charset=utf-8"},
+                    body:jsonString
                   })
                   .then(res=>res.json())
                   .then(data=>{
@@ -93,7 +101,7 @@ class App extends Component{
 
                 }}>수정</button></td>
                 <td><button onClick={()=>{
-                  fetch("/v1/posts/"+item.id,{
+                  fetch("/v2/posts/"+item.id,{
                     method:"delete"
                   })
                   .then(res=>res.json())
@@ -115,5 +123,4 @@ class App extends Component{
   }
 }
 
-
-export default App;
+export default App2;
