@@ -1,42 +1,35 @@
-
-import { Component } from 'react';
+import { useState } from 'react';
+// App.css 적용하기 (내부 css)
 import './App.css'
-import { NavLink, Route, Routes } from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.css"
-import NotFound from './pages/NotFound';
-import { Home, Play, Post, Study } from './pages';
-//클래스형 component
-class App extends Component{
 
- 
-  render(){
+//함수형 component
+function App() {
+  console.log("App 함수 호출")
+  // userState() 함수를 호출하면 호출한 위치에 Array type 의 data 가 리턴된다.
 
-    return (
-      <div className="container">
-        <h1>React Router 를 이용한 SPA 테스트</h1>
-        <p>Single Page Application</p>
-        <ul className='nav nav-pills'>
-          <li className='nav-item'><NavLink className='nav-link' to="/">Home</NavLink></li>
-          <li className='nav-item'><NavLink className='nav-link' to="/play">Play</NavLink></li>
-          <li className='nav-item'><NavLink className='nav-link' to="/study">Study</NavLink></li>
-          <li className='nav-item'><NavLink className='nav-link' to="/post">Post</NavLink></li>
-        </ul>
-        <Routes>
-          <Route path="/" Component={Home}/>
-          <Route path="/play" Component={Play}/>
-          <Route path="/study/*" Component={Study}/>
-          <Route path="/post" Component={Post}/>
-          <Route path='/*' Component={NotFound} />
-        </Routes>
+  // useState() 함수는 배열을 리턴한다.
+  // [ 상태값, 상태값을 바꿀 함수] 구조이다
+  // useState(상태값의 초기값)
+  const [count, setCount] = useState(2)
 
-        {/* <div>
-          <Home></Home>
-          <Play></Play>
-        </div> */}
-
-      </div>
-    )
-  }
+  // useState 함수를 이용해서 이름의 초기값은 "Kim" 버튼을 누르면 "Monkey" 로 바뀌도록
+  const [ myName, changeMyName] = useState("Kim")
+  
+  return (
+    <div className="container">
+      <h1>인덱스 페이지 입니다</h1>
+      <button onClick={()=>{
+        setCount(count+1)
+      }}>{count}</button>
+      
+      <p>내이름은</p><strong>{myName}</strong>
+      <br />
+      <button onClick={()=>{
+        changeMyName("Monkey")
+      }}>이름 변경</button>
+    </div>
+  );
 }
 
+//외부에서 App.js 를 import 하면 App 함수를 사용할수 있다. (src/index.js)
 export default App;
