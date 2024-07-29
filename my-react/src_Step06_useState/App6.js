@@ -20,14 +20,15 @@ function App6() {
             }} type="text" placeholder="이름 입력"/>
 
             <button onClick={()=>{
-                //버튼을 눌렀을때 input 요소에 입력한 value 를 읽어오려면 input 요소의 참조값이 필요하다
-                
+                //버튼을 눌렀을때 input 요소에 입력한 value 를 읽어오려면 input 요소의 참조값이 필요하다  
                 setState({
                     ...state,
                     names:[...state.names, {name:inputName.value, id:state.seq}],
                     seq:state.seq+1
                 })
             }}>추가</button>
+            <br />
+            {JSON.stringify(state)}
         </div>
     );
 }
