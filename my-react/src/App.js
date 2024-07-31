@@ -1,7 +1,8 @@
 
-// bootstrap css 로딩 
+// bootstrap css 로딩  >npm install bootstrap 설치로 사용가능
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState } from 'react';
+// >npm install react-bootstrap 설치로 사용가능
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 
 //함수형 component
