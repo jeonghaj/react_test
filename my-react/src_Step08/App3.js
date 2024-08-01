@@ -18,6 +18,9 @@ function App3() {
             <img data-src="holder.js/200x200?theme=lava" />
             <br />
             <Row>
+                {/* 100x200 = 100픽셀 * 200픽셀
+                    100px200 = 100% * 200픽셀
+                */}
                 <Col><img data-src="holder.js/100px200?theme=lava" /></Col>
                 <Col><img data-src="holder.js/100px200?theme=vine" /></Col>
             </Row>
