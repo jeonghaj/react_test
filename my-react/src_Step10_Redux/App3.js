@@ -11,12 +11,46 @@ function App3() {
     //로그인된 userName 을 store 로 부터 읽어오기
     const userName = useSelector(state=>state.userName)
 
+    //store 에서 관리하는 state 를 변경하고 싶을때 사용하는 함수
+    const dispatch = useDispatch();
+    //이름을 관리할 상태값
+    const [names, setNames] = useState([]);
+
+    const handleLogOut = () => {
+      delete localStorage.token
+      dispatch({type:"UPDATE_USER", payload:null})
+      dispatch({type:"SET_LOGIN", payload:false})
+    }
+
+    // "/api/names" 요청에 응답되는 데이터를 이용해서 ul에 출력하기
+    const handleClick = () => {
+      // 토큰값을 가져가지않으면 require_loginform 으로 이동하려한다.
+      axios.get("/api/names",{
+        headers:{
+          Authorization:localStorage.token
+        }
+      })
+      .then(res=>{
+        setNames(res.data)
+      })
+      .catch(error=>{
+        console.log(error)
+      })
+    }
+
+
     return (
         <Container>
             <h1>인덱스 페이지 입니다.</h1>
             {
-                isLogin && <p><strong>{userName}</strong>님 로그인중</p>
+                isLogin && <p><strong>{userName}</strong>님 로그인중
+                <button onClick={handleLogOut}>로그아웃</button>
+                </p>
             }
+            <Button variant='success' onClick={handleClick}>목록보기</Button>
+            <ul>
+              {names.map((item, index) => <li key={index}>{item}</li>)}
+            </ul>
             <LoginModal show={!isLogin}/>
         </Container>
     );
@@ -41,7 +75,8 @@ function LoginModal(props) {
 
     //로그인 버튼을 눌렀을때 실행할 함수
     const handleSubmit = ()=>{
-        // 입력한 아이디와 비밀번호가 들어있는 state object 를 전송한다(json)
+        // 입력한 아이디와 비밀번호가 들어있는 state object 를 전송한다
+        // 내부적으로 object 를 json 문자열로 바꿔서 전달한다.
         axios.post("/api/auth",state)
         .then(res=>{
             // res.data = 토큰 이 발급된다.
