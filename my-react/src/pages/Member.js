@@ -26,7 +26,6 @@ function Member() {
                             <th>번호</th>
                             <th>이름</th>
                             <th>주소</th>
-                            <th>수정</th>
                             <th>삭제</th>
                         </tr>
                     </thead>
@@ -37,6 +36,9 @@ function Member() {
                                 <td>{item.num}</td>    
                                 <td>{item.name}</td>    
                                 <td>{item.addr}</td> 
+                                <td>
+                                    <button>Delete</button>
+                                </td>
                             </tr>)
                         }
                     </tbody>
