@@ -4,6 +4,8 @@ import Home from '../pages/Home'
 import Member from '../pages/Member'
 import MemberForm from '../pages/MemberForm'
 import MemberUpdateForm from '../pages/MemberUpdateForm'
+import Post from '../pages/Post'
+import PostUpdateForm from '../pages/PostUpdateForm'
 
 const { createBrowserRouter } = require("react-router-dom")
 
@@ -12,7 +14,9 @@ const routes=[
     {path:"/", element: <Home/>},
     {path:"/members", element:<Member/>},
     {path:"members/new", element:<MemberForm/>},
-    {path:"members/:num/edit", element:<MemberUpdateForm/>}
+    {path:"members/:num/edit", element:<MemberUpdateForm/>},
+    {path:"/posts", element:<Post/>},
+    {path:"/posts/new", element:<PostUpdateForm/>}
 ]
 
 //BrowserRouter 를 만들기

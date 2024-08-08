@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
 
 
 function Member() {
@@ -24,6 +25,7 @@ function Member() {
         .then(res => setMembers(res.data))
         .catch(err => console.log(err))
     }, [])
+    
     //삭제 버튼을 눌렀을때 호출되는 함수
     const handleDelete = (num)=>{
         axios.delete("/members/"+num)
@@ -39,8 +41,7 @@ function Member() {
         <>
             &nbsp; <Link to="/members/new">Add Member</Link>
             <h1>Member List</h1>
-            <table>
-                <table>
+                <Table striped bordered size="sm">
                     <thead>
                         <tr>
                             <th>번호</th>
@@ -58,18 +59,17 @@ function Member() {
                                 <td>{item.name}</td>    
                                 <td>{item.addr}</td> 
                                 <td>
-                                    <button onClick={()=>{
+                                    <button class="btn btn-info" onClick={()=>{
                                         navigate(`/members/${item.num}/edit`)
                                     }}>Edit</button>
                                 </td>
                                 <td>
-                                    <button onClick={()=>{handleDelete(item.num)}}>Delete</button>
+                                    <button class="btn btn-danger" onClick={()=>{handleDelete(item.num)}}>Delete</button>
                                 </td>
                             </tr>)
                         }
                     </tbody>
-                </table>
-            </table>
+                </Table>
         </>
     );
 }

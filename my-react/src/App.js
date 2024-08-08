@@ -1,6 +1,8 @@
 // App.css 적용하기 (내부 css)
 import { NavLink, useOutlet } from 'react-router-dom';
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import BsNavBar from './components/BsNavBar';
 
 //함수형 component
 function App() {
@@ -9,10 +11,7 @@ function App() {
   const currentOutlet = useOutlet()
   return (
     <>
-      <ul>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/members">Member</NavLink></li>
-      </ul>
+      <BsNavBar/>
       <div className="container">
         <div>{currentOutlet}</div>
       </div>
