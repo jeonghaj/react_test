@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Member() {
 
+    const navigate = useNavigate();
+
     // 회원 목록 상태값 관리
-    const [members, setMembers] = useState([]);
+    const [members, setMembers] = useState([])
+
+    const refresh = ()=>{
+        axios.get("/members")
+        .then(res => setMembers(res.data))
+        .catch(err => console.log(err))
+    }
+
     // Member Component 가 활성화 되는 시전에 호출되는 함수 등록
     // useEffect (함수, 빈배열) 함수는 component 가 활성화 될때 최초 1번 호출된다. (개발환경:2번)
     useEffect(()=>{
@@ -15,6 +24,17 @@ function Member() {
         .then(res => setMembers(res.data))
         .catch(err => console.log(err))
     }, [])
+    //삭제 버튼을 눌렀을때 호출되는 함수
+    const handleDelete = (num)=>{
+        axios.delete("/members/"+num)
+        .then(res=>{
+            if(res.data.isSuccess){
+                //화면 리프레시
+                refresh();
+            }
+        })
+        .catch(err=>console.log(err))
+    }
     return (
         <>
             &nbsp; <Link to="/members/new">Add Member</Link>
@@ -26,6 +46,7 @@ function Member() {
                             <th>번호</th>
                             <th>이름</th>
                             <th>주소</th>
+                            <th>수정</th>
                             <th>삭제</th>
                         </tr>
                     </thead>
@@ -37,7 +58,12 @@ function Member() {
                                 <td>{item.name}</td>    
                                 <td>{item.addr}</td> 
                                 <td>
-                                    <button>Delete</button>
+                                    <button onClick={()=>{
+                                        navigate(`/members/${item.num}/edit`)
+                                    }}>Edit</button>
+                                </td>
+                                <td>
+                                    <button onClick={()=>{handleDelete(item.num)}}>Delete</button>
                                 </td>
                             </tr>)
                         }
