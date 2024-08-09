@@ -11,9 +11,9 @@ import { decodeToken } from 'jsontokens';
 import axios from 'axios';
 import { legacy_createStore as createStore } from 'redux';
 
+
 // token 이 존재 한다면 token 에서 값을 읽어와서 저장할 변수 만들기
 let userName=null
-let isLogin=false
 
 //만일 토큰이 존재한다면
 if(localStorage.token){
@@ -29,7 +29,6 @@ if(localStorage.token){
   if(expTime > now){
     //토큰에 저장되어 있는 subject (userName) 을 변수에 담는다. 
     userName=result.payload.sub
-    isLogin=true
     //axios 의 header 에 인증정보를 기본으로 가지고 갈수 있도록 설정 
     axios.defaults.headers.common["Authorization"]=localStorage.token
   }else{
@@ -37,9 +36,12 @@ if(localStorage.token){
     delete localStorage.token
   }
 }
-
+const loginModal = {
+  show:false,
+  message:""
+}
 // store 에서 관리될 state 의 초기값
-const initialState={userName, isLogin}
+const initialState={userName, loginModal}
 
 //reducer 함수 (action 을 발행하면 호출되는 함수)
 const reducer = (state=initialState, action)=>{
@@ -49,10 +51,10 @@ const reducer = (state=initialState, action)=>{
       ...state,
       userName:action.payload
     }
-  }else if(action.type === "SET_LOGIN"){
+  }else if(action.type === "LOGIN_MODAL"){
     newState={
       ...state,
-      isLogin:action.payload
+      loginModal:action.payload
     }
   }else{
     newState=state
