@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Pagination, Row } from 'react-bootstrap';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 //원하는 범위의 숫자를 배열에 담아서 리턴하는 util 함수 만들어 보기
 function range(start, end){
@@ -27,7 +27,9 @@ function Gallery(props) {
     // "/gallery?pageNum=x" 에서 pageNum 을 추출하기 위한 Hook
     // pageNum 이 전달되지 않으면 기본값 pageNum=1 이 적용이 되고 전달된다면 전달된 값이 적용된다.
     const [params, setParams] = useSearchParams({pageNum:1})
-    console.log(params.get("pageNum"))
+    
+    //페이지 이동을 위한 함수
+    const navigate = useNavigate();
 
     //갤러리 목록 데이터 읽어오는 함수
     const refresh = (pageNum)=>{
@@ -66,7 +68,8 @@ function Gallery(props) {
                                 <Card.Body>
                                     <Card.Text>{item.caption}</Card.Text>
                                     <Card.Text>writer : <strong>{item.writer}</strong></Card.Text>
-                                    <Button variant='primary'>Detail</Button>
+                                    <Button className='mx-2' variant='primary' onClick={()=>navigate(`/gallery/${item.num}`)}>Detail</Button>
+                                    <Button className='mx-2' variant='success' as={Link} to={`/gallery/${item.num}`}>Detail</Button>
                                 </Card.Body>
                             </Card>
                         </Col>

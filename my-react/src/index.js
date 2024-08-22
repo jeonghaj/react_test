@@ -38,7 +38,8 @@ if(localStorage.token){
 }
 const loginModal = {
   show:false,
-  message:""
+  message:"",
+  url:null
 }
 // store 에서 관리될 state 의 초기값
 const initialState={userName, loginModal}

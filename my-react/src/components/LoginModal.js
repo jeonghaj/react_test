@@ -5,6 +5,7 @@ import { decodeToken } from "jsontokens";
 import { useState } from "react";
 import { Alert, Button, FloatingLabel, Form, Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 
 //부모 component 로 부터 전달 받은 props 가 함수의 매개 변수에 전달된다.
@@ -20,7 +21,8 @@ function LoginModal(props) {
             [e.target.name]:e.target.value
         })
     }
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     //로그인 버튼을 눌렀을때 실행할 함수
     const handleLogin = ()=>{
         axios.post("/auth", state)
@@ -41,6 +43,12 @@ function LoginModal(props) {
             dispatch({type:"LOGIN_MODAL", payload:false})
             //axios 의 header 에 인증정보를 기본으로 가지고 갈 수 있도록 설정
             axios.defaults.headers.common["Authorization"]=localStorage.token
+            
+            //로그인 이후에 원래 가려던 곳이 있으면 해당 위치로 이동할 수 있도록 처리
+            if(props.result){
+                //원래 가려던 곳으로 이동
+                navigate(props.url)       
+            }
         })
         .catch(error=>{
             //아이디 혹은 비밀번호가 틀리면 여기가 실행
