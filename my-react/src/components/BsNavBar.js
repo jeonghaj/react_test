@@ -46,6 +46,7 @@ function BsNavBar() {
                         {/* boot10 */}
                         <Nav.Link as={NavLink} to="/posts">Post</Nav.Link>
                         <Nav.Link as={NavLink} to="/gallery">Gallery</Nav.Link>
+                        <Nav.Link as={NavLink} to="/cafe">Cafe</Nav.Link>
                     </Nav>
                     {
                         userName ? 

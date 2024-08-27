@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
         // return null; 
         
         // 특정 경로로 리다일렉트 시키고 싶으면 <Navigate to="이동경로" /> 컴포넌트를 리턴해주면 된다.
-        return <Navigate to="/"/>
+        return <Navigate to="/cafe"/>
     }
   
   return children;
