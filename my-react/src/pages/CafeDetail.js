@@ -10,6 +10,7 @@ import myCss from './css/cafe_detail.module.css'
 import binder from 'classnames/bind'
 import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
+import ConfirmModal from "../components/ConfirmModal";
 //cx 함수 
 const cx=binder.bind(myCss)
 
@@ -21,6 +22,13 @@ function CafeDetail() {
     const [state, setState]=useState({})
     //검색 키워드 관련처리
     const [params, setParams]=useSearchParams()
+
+    //Confirm Modal 관리 상태값
+    const [confirmShow, setConfirmShow] = useState(false)
+    //글 삭제 확인을 눌렀을때 호출되는 함수
+    const handleYes = ()=>{
+        
+    }
 
     const navigate = useNavigate()
 
@@ -86,9 +94,14 @@ function CafeDetail() {
                 userName === state.writer && 
                 <>
                     <Button variant="warning" onClick={()=>navigate(`/cafes/${num}/edit`)}>수정</Button>
-                    <Button variant="danger">삭제</Button>
+                    <Button variant="danger" onClick={()=>{setConfirmShow(true)}}>삭제</Button>
                 </>
             }
+            <ConfirmModal 
+            show={confirmShow} 
+            message="글을 삭제하시겠습니까?"
+            yes={handleYes}
+            no={()=>{setConfirmShow(false)}}/>
         </div>
     );
 }
