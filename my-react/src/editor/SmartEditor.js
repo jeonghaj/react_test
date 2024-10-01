@@ -35,6 +35,7 @@ function initEditor(id = "content") { // id 는 textarea 의 아이디
         this.nBlockerCount = 0;
 
         this.createInIFrame = function (htOptions) {
+
             if (arguments.length == 1) {
                 var oAppRef = htOptions.oAppRef;
                 var elPlaceHolder = htOptions.elPlaceHolder;
@@ -202,6 +203,9 @@ function initEditor(id = "content") { // id 는 textarea 의 아이디
     // SmartEditor 에 입력한 내용을 textarea 에 변환하는 함수 
     oEditors.exec = function () {
         this.getById[id].exec("UPDATE_CONTENTS_FIELD", []);
+    }
+    oEditors.setContents = function(contents){
+        this.getById[id].setContents(contents);
     }
 
     return oEditors;
